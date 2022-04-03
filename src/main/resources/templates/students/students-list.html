@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+
+    <title>Students List</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Students List</h3>
+    <hr>
+
+    <!-- Add a button -->
+    <a th:href="@{/students/add}"
+       class="btn btn-primary btn-sm mb-3">
+        Add Student
+    </a>
+
+
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Standard</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="tempStudent : ${students}">
+
+            <td th:text="${tempStudent.firstName}" />
+            <td th:text="${tempStudent.lastName}" />
+            <td th:text="${tempStudent.standard}" />
+
+            <td>
+                <!-- Add "update" button/link -->
+                <a th:href="@{/students/update(studentRollNo=${tempStudent.RollNo})}"
+                   class="btn btn-info btn-sm">
+                    Update
+                </a>
+
+                <!-- Add "delete" button/link -->
+                <a th:href="@{/students/delete(studentRollNo=${tempStudent.RollNo})}"
+                   class="btn btn-danger btn-sm"
+                   onclick="if (!(confirm('Are you sure you want to delete this student?'))) return false">
+                    Delete
+                </a>
+
+            </td>
+
+
+        </tr>
+        </tbody>
+    </table>
+
+    <a href=../../><input type=button value='HOME'></a>
+    <br><br>
+    <div th:if = "${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class = "col-sm-2">
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class = "col-sm-1">
+                <a th:if="${currentPage > 1}" th:href="@{${currentPage - 1}}">Prev</a>
+                <span th:unless="${currentPage > 1}">Prev</span>
+            </div>
+
+            <div class = "col-sm-1">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage!=i}" th:href="@{${i}}">[[${i}]]</a>
+                    <span th:unless="${currentPage!=i}">[[${i}]]</span> &nbsp; &nbsp;
+                </span>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{${currentPage + 1}}">Next</a>
+                <span th:unless="${currentPage< totalPages}">Next</span>
+            </div>
+
+            <div class = "col-sm-1">
+                <a th:if="${currentPage < totalPages}" th:href="@{${totalPages}}">Last</a>
+                <span th:unless="${currentPage< totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+
+

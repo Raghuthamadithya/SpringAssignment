@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title> Welcome</title>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+body  {
+    background-color: #F5F5F5;
+}
+div
+{
+    font-size:20px;
+}
+.button:hover {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button1 {
+  background-color: white;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+  background-color: #4CAF50;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  color: white;
+}
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button2 {
+  background-color: white;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #008CBA;
+}
+
+.button2:hover {
+  background-color: #008CBA;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  color: white;
+}
+
+.button3 {
+  background-color: white;
+  color: black;
+  border-radius: 8px;
+  border: 2px solid #555555;
+}
+
+.button3:hover {
+  background-color: #555555;
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  color: white;
+}
+
+body {
+  background-image: url('https://www.pexels.com/photo/white-painted-wall-1939485/');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+</style>
+
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+<div sec:authorize="isAuthenticated()">
+    Welcome <b><span sec:authentication="name">Username</span></b>
+    &nbsp;
+    <i><span sec:authentication="principal.authorities">Roles</span></i>
+</div>
+<br>
+
+<div sec:authorize="hasAnyAuthority('PRINCIPAL')">
+
+    <a th:href="@{/teachers/page/1}"
+       class="button button1">List of Teachers
+    </a>
+
+</div>
+
+<div sec:authorize="hasAnyAuthority('TEACHER')">
+    <br>
+    <a th:href="@{/students/page/1}"
+       class="button button2">List of Students
+    </a>
+
+</div>
+
+<div sec:authorize="hasAnyAuthority('STUDENT')">
+<p><a href="https://www.learnentry.com/english-telugu/vocabulary/subjects-in-telugu/">Telugu</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Hindi">Hindi</a></p>
+<p><a href="https://en.wikipedia.org/wiki/English_language">English</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Mathematics">Mathematics</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Science">Science</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Social">Social</a></p>
+</div>
+
+<br/>
+
+<form th:action="@{/logout}" method="post">
+    <button class="button button3">Logout</button>
+</form>
+
+</body>
+</html>
